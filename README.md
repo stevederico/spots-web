@@ -25,8 +25,8 @@ bun run start
 
 | Surface | What |
 |---------|------|
-| **Browse** | Map + list of spots (seeded SF inventory) |
-| **Spot detail** | OSM map, rates, Park Here booking |
+| **Browse** | Interactive Leaflet map (CARTO tiles) + list of spots (seeded SF inventory) |
+| **Spot detail** | Interactive location map, rates, Park Here booking |
 | **My Spots** | Host CRUD (create + soft-delete) |
 | **History** | Your bookings |
 
