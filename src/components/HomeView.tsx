@@ -3,7 +3,7 @@ import { Button } from '@stevederico/skateboard-ui/shadcn/ui/button';
 import { Input } from '@stevederico/skateboard-ui/shadcn/ui/input';
 import { Skeleton } from '@stevederico/skateboard-ui/shadcn/ui/skeleton';
 import DynamicIcon from '@stevederico/skateboard-ui/DynamicIcon';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { apiRequest } from '@stevederico/skateboard-ui/Utilities';
 import type { Spot } from '../types/spots';
@@ -22,6 +22,7 @@ export default function HomeView() {
   const [query, setQuery] = useState('');
   const [view, setView] = useState<'map' | 'list'>('map');
   const [selectedId, setSelectedId] = useState<string | undefined>();
+  const cardRefs = useRef<Map<string, HTMLLIElement>>(new Map());
 
   useEffect(() => {
     let cancelled = false;
@@ -54,6 +55,13 @@ export default function HomeView() {
         s.summary.toLowerCase().includes(q)
     );
   }, [spots, query]);
+
+  // Keep the list card in view when a map pin is selected
+  useEffect(() => {
+    if (!selectedId) return;
+    const node = cardRefs.current.get(selectedId);
+    node?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, [selectedId]);
 
   return (
     <>
@@ -119,7 +127,13 @@ export default function HomeView() {
             />
             <ul className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((spot) => (
-                <li key={spot._id}>
+                <li
+                  key={spot._id}
+                  ref={(el) => {
+                    if (el) cardRefs.current.set(spot._id, el);
+                    else cardRefs.current.delete(spot._id);
+                  }}
+                >
                   <SpotCard
                     spot={spot}
                     selected={spot._id === selectedId}

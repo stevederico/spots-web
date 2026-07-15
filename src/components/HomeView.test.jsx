@@ -32,6 +32,15 @@ vi.mock('@stevederico/skateboard-ui/shadcn/ui/skeleton', () => ({
   Skeleton: (props) => <div data-testid="skeleton" {...props} />,
 }));
 
+vi.mock('./SpotMap', () => ({
+  default: ({ spots }) => (
+    <div data-testid="spot-map" role="region" aria-label="Map of parking spots">
+      {spots?.length ?? 0} pins
+    </div>
+  ),
+  SpotOsmEmbed: () => <div data-testid="spot-osm" />,
+}));
+
 import { apiRequest } from '@stevederico/skateboard-ui/Utilities';
 
 describe('HomeView', () => {
