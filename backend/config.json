@@ -1,0 +1,8 @@
+{
+  "staticDir": "../dist",
+  "database": {
+    "db": "Spots",
+    "dbType": "sqlite",
+    "connectionString": "./databases/Spots.db"
+  }
+}

@@ -1,0 +1,151 @@
+/*
+  =require twitter-bootstrap-static/bootstrap
+
+  Use Font Awesome icons (default)
+  To use Glyphicons sprites instead of Font Awesome, replace with "require twitter-bootstrap-static/sprites"
+  =require twitter-bootstrap-static/fontawesome
+  */
+
+.navbar
+  .navbar-inner {
+    background-color: #2c2c2c;
+    background-image: none;
+  }
+}
+
+a .brand{
+	color: rgb(255, 255, 255);
+}
+
+h1{
+	font-weight: 200;
+}
+body{
+	padding-top: 40px;
+	font-family: 'Helvetica Neue', Helvetica;
+	background-color: rgb(240, 236, 235);
+	font-weight: 200;
+}
+.page-header{
+	background-attachment: scroll;
+	background-color: 
+	rgb(253, 252, 251);
+	background-image: none;
+	background-repeat: repeat;
+	border-bottom-color: 
+	rgb(224, 219, 218);
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-left-color: 
+	rgb(224, 219, 218);
+	border-left-style: solid;
+	border-left-width: 1px;
+	border-right-color: 
+	rgb(224, 219, 218);
+	border-right-style: solid;
+	border-right-width: 1px;
+	border-top-color: 
+	rgb(224, 219, 218);
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-top-style: solid;
+	border-top-width: 0px;
+	color: 
+	rgb(56, 53, 52);
+	display: block;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	height: 57px;
+	left: 0px;
+	line-height: 33px;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	padding-bottom: 10px;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 13px;
+
+}
+
+.right{
+
+	display: block;
+	float: right;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	height: 33px;
+	left: auto;
+	line-height: 33px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-top: 13px;
+	position: static;
+	top: auto;
+	width: 155px;
+
+
+}
+
+
+.common-table{
+
+-webkit-border-horizontal-spacing: 0px;
+-webkit-border-vertical-spacing: 0px;
+background-attachment: scroll;
+background-color: 
+rgba(0, 0, 0, 0);
+background-image: none;
+background-repeat: repeat;
+border-bottom-color: 
+rgb(230, 224, 223);
+border-bottom-left-radius: 6px;
+border-bottom-right-radius: 6px;
+border-bottom-style: solid;
+border-bottom-width: 1px;
+border-collapse: separate;
+border-left-color: 
+rgb(230, 224, 223);
+border-left-style: solid;
+border-left-width: 1px;
+border-right-color: 
+rgb(230, 224, 223);
+border-right-style: solid;
+border-right-width: 1px;
+border-top-color: 
+rgb(204, 204, 204);
+border-top-left-radius: 6px;
+border-top-right-radius: 6px;
+border-top-style: solid;
+border-top-width: 1px;
+color: 
+rgb(56, 53, 52);
+display: table;
+font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+font-size: 13px;
+font-style: normal;
+font-weight: 400;
+line-height: 13px;
+margin-bottom: 10px;
+margin-left: 0px;
+margin-right: 0px;
+margin-top: 0px;
+padding-bottom: 0px;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 0px;
+text-align: left;
+background-color: rgb(255, 255, 255);
+
+}
+

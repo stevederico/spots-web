@@ -1,0 +1,39 @@
+Build Complete Rails Backend with scaffolding
+Sign Up/Sign In
+Website landing Page
+List Parking Space
+Added Spot Validations
+Shorten Summary in Spots Index
+Format Date in Spots Index
+Added Title Column to Spot
+iPhone Sign in API
+Server Deletes
+
+FEATURES
+-Add Overnight PRice
+-Add Type
+-Create Transaction Model
+-Add Parking Spot type to New Listing
+-Carosel Landing Page
+-Add Stripe Integration
+-Add User to Transaction Relationship
+-Add Car Model
+-Add Invite System
+
+FRONT END
+-Fix NavBar Color
+-Fix My Profile Styling
+-Center Footer
+-Fix Sign In Highlighting and Email Box Size
+-Fix Background Color
+
+
+Competitors
+-ParkingPanda.com
+-ParkCirca.com
+
+
+Designers
+http://dribbble.com/TheRyanFord?page=5
+http://dribbble.com/oykun
+http://dribbble.com/locorobo

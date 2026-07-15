@@ -1,0 +1,89 @@
+
+
+<%= form_for @spot, :html => { :class => 'form-horizontal' } do |f| %>
+   <% @spot.errors.full_messages.each do |msg| %>
+      <div class="alert alert-error"><%= msg %></div>
+    <% end %>
+  <% flash.each do |key, value| %>
+      <div class="alert alert-<%= key %>"><%= value %></div>
+    <% end %>
+
+  <div class="control-group">
+    <%= f.label :title, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :title,:value => "Hello World!", :class => 'text_field' %>
+    </div>
+  </div>
+
+   <div class="control-group">
+    <%= f.label :zipcode, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.number_field :zipcode,:value => "94124", :class => 'number_field' %>
+    </div>
+  </div>
+    <div class="control-group">
+    <%= f.label :city, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :city,:value => "San Francisco", :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :state, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :state,:value => "CA", :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label "Street Address", :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :streetAddress,:value => "15 Divisadero", :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :latitude, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :latitude,:value => "37.803749", :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :longitude, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :longitude,:value => "-122.443678", :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label "$/hr", :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :price,:value => "3.50", :class => 'text_field' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :overnight, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :overnight,:value => "13.50", :class => 'text_field' %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :style, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.select :style, options_for_select([["Select One", ""], "Street", "Driveway", "Garage"]) %>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <%= f.label :summary, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_area :summary,:value => "udin. Nulla convallis lacinia ullamcorper. Nam id suscipit justo. Aliquam blandit commodo nisl sit amet pretium. Vivamus sollicitudin metus nec dolor tempus quis pretium nunc ferm", :class => 'text_area' %>
+    </div>
+  </div>
+ 
+
+
+  <div class="form-actions">
+    <%= f.submit nil, :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                spots_path, :class => 'btn' %>
+  </div>
+<% end %>

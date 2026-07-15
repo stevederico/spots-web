@@ -1,0 +1,118 @@
+12/11/12
+Added Rack Core Data Sync
+Added Refresh
+Added Swipe to Delete
+Added CoreLocation
+Added MapKit
+Added ListingViewController
+Added Centered Map to Listing Page
+Added Disclourse Icon for Rows
+Added TableView With Description to ListingPage
+Added Destination Pin to ListingViewController
+Added Basic Account Page
+Added Purchase Items Car, Card, Time
+Added Flip Between Map and ListView
+Added MapView
+Added Pull to Refresh on SpotsViewController
+Added Spots on Map
+Added Refresh and Recenter Button to MapViewController
+Fixed Current Location Bug
+Added Link to Listing Page from Map Annotation
+Added Green Background to Park Button
+Removed Current Location Pin Drop
+Added Dynamic Price,Type to ListingViewController
+
+12/11/12
+Added Page Curl Icon and Animation
+Added MapDetailsViewController
+
+12/17/12
+Added Authenication
+Added SetupLoggedInUser Method
+Added Server Deletes Functionality
+Improved Pin Reuse
+Fixed First Time Load Issue
+Added Multi Screen size Support
+Fixed Map Zoom on Listing Page
+Added TranscationViewController
+
+12/18/12
+Added Subtitle to MapPoints
+Added Profile Page
+Added Credit Card Index
+Added Credit Card AddView
+Added Credit Card View/Edit/Delete View
+
+
+-Create Transcations Model
+-Dynamic Transaction View Data
+-Profile Page Dynamic Data
+-Log Out on Profile Page
+-Meter Screen
+-Account Page (Upper Left)
+    -Credit Cards
+        -Secure Data Storage
+        -SSL for pass to server
+    -Cars
+        -List Cars
+        -View/Edit/Delete Car
+        -Add Car
+        -License Plate
+            -Year
+            -Model
+            -Color
+            -Picture
+            -Nickname
+    -Transactions
+        -Index
+        -View
+-More Info Screen
+    -Owner
+    -Description
+    -Phone Number
+-Add Dynamic User Data to Listing Page
+-Sign Up
+-Turn Off Swipe to Delete
+-Only Plot Points within .5 miles around your and current location or set location
+-Change Project Name to Spots-iOS
+-Add Version and Send Feeback to AccountViewController
+-Add Functional Search from Map Peel
+-Add SegmentViewControl to ListView
+
+BUGS
+-Show Map Peel Corner on Smaller iPhone
+
+
+DESIGN
+-List Icon like the one in Maps App
+
+
+
+NICE
+-Add Spot Type Icon to MKAnnotation
+-Add Spot Type Icon to List Image View
+-Add Distance Away to List View Cells
+-Add Reset Password to Profile Page
+-Add Avatar to User Profiles
+-Fix Sizing on other devices
+-Map Bigger Button
+-Icons for types of Spaces
+    -Garage
+    -Driveway
+    -Street
+-expandy top Map there is a github library for it.    
+-Reminders for Street Cleaning
+- Permits for Street Areas?
+- Tap Map to Make it full screen
+- Build Web CRUD
+    -Rating on ListingPage?
+    -Add Small Overlay recenter button to Listing Page
+
+-Add Street Address Bar to Listing Page
+
+
+Source Apps
+-Maps
+-Uber
+-Foursquare
+-Airbnb

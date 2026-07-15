@@ -1,0 +1,69 @@
+<%- model_class = Spot -%>
+<% content_for :title, "Spots" %>
+<div class="page-header">
+    <div class="right">
+
+  <%= link_to 'New Spot',
+            new_spot_path, :class => 'btn-large btn-success nounderline' %>
+
+    </div>
+    <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+  </div>
+
+   <% flash.each do |key, value| %>
+                <div class="alert alert-<%= key %>"><%= value %></div>
+              <% end %>
+
+<table class="common-table table table-condensed">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:title) %></th>
+      <th><%= model_class.human_attribute_name(:style) %></th>
+      <th><%= model_class.human_attribute_name(:city) %></th>
+      <th><%= model_class.human_attribute_name(:latitude) %></th>
+      <th><%= model_class.human_attribute_name(:longitude) %></th>
+      <th><%= model_class.human_attribute_name(:price) %></th>
+      <th><%= model_class.human_attribute_name(:overnight) %></th>
+      <th><%= model_class.human_attribute_name(:state) %></th>
+      <th>Address</th>
+      <th><%= model_class.human_attribute_name(:summary) %></th>
+      <th><%= model_class.human_attribute_name(:zipcode) %></th>
+
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @spots.each do |spot| %>
+      <tr>
+        <td><%= link_to spot.title, spot_path(spot)%></td>
+        <td><%= link_to spot.style, spot_path(spot)%></td>
+        <td><%= link_to spot.city, spot_path(spot)%></td>
+        <td><%= link_to spot.latitude, spot_path(spot) %></td>
+        <td><%= link_to spot.longitude, spot_path(spot) %></td>
+        <td><%= link_to spot.price, spot_path(spot) %></td>
+        <td><%= link_to spot.overnight, spot_path(spot) %></td>
+        <td><%= link_to spot.state, spot_path(spot) %></td>
+        <td><%= link_to spot.streetAddress, spot_path(spot) %></td>
+        <td><%= link_to truncate(spot.summary), spot_path(spot) %></td>
+        <td><%= link_to spot.zipcode, spot_path(spot) %></td>
+
+
+
+
+        <td><%= spot.created_at.in_time_zone('Pacific Time (US & Canada)').strftime("%Y-%m-%d %I:%M:%S %p") %></td>
+        <td>
+          <%#= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_spot_path(spot), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      spot_path(spot),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
