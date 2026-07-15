@@ -1,4 +1,4 @@
-# Spots
+# Spots Web
 
 Airbnb-style parking marketplace — remake of [ParkPro](archive/) on the latest Skateboard stack.
 
