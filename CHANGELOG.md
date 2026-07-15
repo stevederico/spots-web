@@ -1,3 +1,7 @@
+0.2.0
+
+  Remove ParkPro archive
+
 0.1.0
 
   Add Leaflet map

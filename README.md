@@ -1,6 +1,6 @@
 # Spots Web
 
-Airbnb-style parking marketplace — remake of [ParkPro](archive/) on the latest Skateboard stack.
+Airbnb-style parking marketplace — remake of ParkPro on the latest Skateboard stack.
 
 **A New Way to Park** — browse map/list, book a time window, host your own spots.
 
@@ -28,8 +28,6 @@ bun run start
 | **Spot detail** | Interactive location map, rates, Park Here booking |
 | **My Spots** | Host CRUD (create + soft-delete) |
 | **History** | Your bookings |
-
-Original 2012 sources live in `archive/parkpro-ios-archive` and `archive/parkpro-backend-archive`.
 
 ## API
 

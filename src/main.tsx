@@ -1,7 +1,6 @@
 /**
  * Spots — parking marketplace (ParkPro remake on Skateboard).
  *
- * @see archive/ for original 2012 iOS + Rails sources
  */
 import './assets/styles.css';
 import { lazy, Suspense } from 'react';
