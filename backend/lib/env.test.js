@@ -72,7 +72,7 @@ describe('env.js', () => {
       assert.equal(process.env[''], undefined);
     });
 
-    it('refuses to load a symlink .env (shared-env landmine)', () => {
+    it('refuses to load a symlink .env (external symlink landmine)', () => {
       const target = join(tempDir, 'secrets.env');
       const link = join(tempDir, '.env');
       writeFileSync(target, 'LEAKED=secret-value\n');

@@ -1,3 +1,7 @@
+0.2.2
+
+  Drop shared-env wording
+
 0.2.1
 
   Refuse .env symlinks
