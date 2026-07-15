@@ -1,3 +1,8 @@
+0.2.1
+
+  Refuse .env symlinks
+  Docker env find-guard
+
 0.2.0
 
   Remove ParkPro archive
