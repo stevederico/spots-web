@@ -16,7 +16,7 @@ npm-debug.log*
 .vscode/
 .idea/
 
-# Environment — never bake secrets (symlinks to shared-env are the classic leak)
+# Environment — never bake secrets (env symlinks are the classic leak)
 .env
 .env.*
 **/.env

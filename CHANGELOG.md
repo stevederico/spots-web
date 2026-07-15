@@ -1,10 +1,14 @@
+0.2.3
+
+  Scrub personal env names
+
 0.2.2
 
-  Drop shared-env wording
+  Drop personal env path wording
 
 0.2.1
 
-  Refuse .env symlinks
+  Refuse env file symlinks
   Docker env find-guard
 
 0.2.0

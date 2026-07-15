@@ -11,7 +11,7 @@ RUN npm install && cd backend && npm install
 
 COPY . .
 
-# Refuse-by-default: never bake env secrets into the image (shared-env symlink landmine)
+# Refuse-by-default: never bake env secrets into the image (env symlink landmine)
 RUN if find /app \( -name '.env' -o -name '.env.*' \) ! -name '.env.example' -print -quit | grep -q .; then \
       echo 'FATAL: .env file present in Docker build context — aborting'; \
       find /app \( -name '.env' -o -name '.env.*' \) ! -name '.env.example' -print; \
