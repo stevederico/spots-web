@@ -104,7 +104,11 @@ export default function SpotDetailView() {
         )}
         {spot && (
           <>
-            <SpotOsmEmbed latitude={spot.latitude} longitude={spot.longitude} />
+            <SpotOsmEmbed
+              latitude={spot.latitude}
+              longitude={spot.longitude}
+              title={spot.title}
+            />
 
             <div className="grid gap-6 lg:grid-cols-2">
               <Card>
