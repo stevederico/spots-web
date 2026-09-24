@@ -17,8 +17,10 @@ vi.mock('@stevederico/skateboard-ui/Context', () => ({
   getState: () => ({ state: contextState })
 }));
 
-vi.mock('@stevederico/skateboard-ui/DynamicIcon', () => ({
-  default: ({ name }) => <span data-testid={`icon-${name}`} />
+vi.mock('lucide-react', () => ({
+  Map: () => <span data-testid="icon-map" />,
+  ParkingMeter: () => <span data-testid="icon-parking-meter" />,
+  History: () => <span data-testid="icon-history" />,
 }));
 
 vi.mock('@stevederico/skateboard-ui/shadcn/ui/command', () => ({
