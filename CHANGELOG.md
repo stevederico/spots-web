@@ -1,3 +1,7 @@
+0.3.1
+
+  Match update statuses
+
 0.3.0
 
   Migrate skateboard 5.6

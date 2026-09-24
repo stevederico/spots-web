@@ -1483,7 +1483,16 @@ fn spots_update(state: &AppState, req: &Request) -> Response {
     };
     let write = match spot_from_body(&body, Some(&existing)) {
         Ok(write) => write,
-        Err(message) => return err_json(400, message),
+        // Node only promotes messages containing "must", "required", or
+        // "invalid" to 400. A zipcode failure has none of those words, so it
+        // stays a 500 with the generic body.
+        Err(message) if update_error_is_client(message) => return err_json(400, message),
+        Err(message) => {
+            state
+                .log
+                .error("Update spot failed", &[("error", json::s(message))]);
+            return err_json(500, "Failed to update spot");
+        }
     };
     match state
         .pool
@@ -1540,9 +1549,6 @@ fn bookings_create(state: &AppState, req: &Request) -> Response {
         Ok(window) => window,
         Err(message) => return err_json(400, message),
     };
-    if let Err(message) = check_booking_span(time_in, time_out) {
-        return err_json(400, message);
-    }
     let spot = match state.pool.get_spot(&spot_id) {
         Ok(Some(spot)) => spot,
         Ok(None) => return err_json(400, "Spot not found"),
@@ -1734,27 +1740,34 @@ fn is_zip(value: &str) -> bool {
     bytes.len() == 10 && bytes[5] == b'-' && digits(&bytes[..5]) && digits(&bytes[6..])
 }
 
+fn update_error_is_client(message: &str) -> bool {
+    message.contains("must") || message.contains("required") || message.contains("invalid")
+}
+
+/// Accept any finite JSON number, matching `typeof timeIn === "number"`.
+fn finite_number(body: &Json, key: &str) -> Option<f64> {
+    body.get(key)
+        .and_then(Json::as_f64)
+        .filter(|value| value.is_finite())
+}
+
 fn booking_window(body: &Json) -> Result<(String, i64, i64), &'static str> {
     let Some(spot_id) = body.get_str("spotId").filter(|id| !id.is_empty()) else {
         return Err("spotId, timeIn, and timeOut are required");
     };
-    let Some(time_in) = body.get("timeIn").and_then(Json::as_i64) else {
+    let Some(time_in) = finite_number(body, "timeIn") else {
         return Err("spotId, timeIn, and timeOut are required");
     };
-    let Some(time_out) = body.get("timeOut").and_then(Json::as_i64) else {
+    let Some(time_out) = finite_number(body, "timeOut") else {
         return Err("spotId, timeIn, and timeOut are required");
     };
-    Ok((spot_id.to_string(), time_in, time_out))
-}
-
-fn check_booking_span(time_in: i64, time_out: i64) -> Result<(), &'static str> {
     if time_out <= time_in {
         return Err("timeOut must be after timeIn");
     }
-    if time_out - time_in > MAX_BOOKING_MS {
+    if time_out - time_in > MAX_BOOKING_MS as f64 {
         return Err("Booking cannot exceed 7 days");
     }
-    Ok(())
+    Ok((spot_id.to_string(), time_in as i64, time_out as i64))
 }
 
 /// Hourly charge rounded to cents, with a quarter-hour minimum.
@@ -2701,6 +2714,209 @@ mod tests {
         assert_eq!(
             json_body(&res).get_str("error"),
             Some("Summary must be at least 30 characters")
+        );
+        std::fs::remove_dir_all(&dir).ok();
+    }
+
+    fn with_auth(_state: &AppState, signup: &Response, method: &str, path: &str) -> Request {
+        let mut req = Request::for_test(method, path);
+        replay_cookies(&mut req, &[signup], method != "GET");
+        req
+    }
+
+    #[test]
+    fn seed_marina_matches_the_node_fixture() {
+        let (state, dir) = test_state();
+        let signup = signed_up(&state, "reader@example.com");
+        let res = handle(&state, with_auth(&state, &signup, "GET", "/api/spots/seed-marina"));
+        assert_eq!(res.status, 200, "{}", String::from_utf8_lossy(&res.body));
+        let spot = json_body(&res);
+        assert_eq!(spot.get_str("userId"), Some("seed-host"));
+        assert_eq!(spot.get_str("streetAddress"), Some("2100 Chestnut St"));
+        assert_eq!(spot.get_str("city"), Some("San Francisco"));
+        assert_eq!(spot.get_str("state"), Some("CA"));
+        assert_eq!(spot.get_str("zipcode"), Some("94123"));
+        assert_eq!(spot.get_str("style"), Some("Driveway"));
+        assert_eq!(spot.get("price").and_then(Json::as_f64), Some(4.5));
+        assert_eq!(spot.get("overnight").and_then(Json::as_f64), Some(25.0));
+        assert_eq!(spot.get("isAvailable").and_then(Json::as_bool), Some(true));
+        assert!(spot.get_str("summary").unwrap_or("").len() >= 30);
+        std::fs::remove_dir_all(&dir).ok();
+    }
+
+    #[test]
+    fn owner_can_update_and_a_stranger_cannot() {
+        let (state, dir) = test_state();
+        let signup = signed_up(&state, "editor@example.com");
+        let mut create = with_auth(&state, &signup, "POST", "/api/spots");
+        create.set_test_body(valid_spot_json().as_bytes().to_vec());
+        let created = handle(&state, create);
+        assert_eq!(created.status, 201, "{}", String::from_utf8_lossy(&created.body));
+        let spot_id = json_body(&created).get_str("_id").unwrap().to_string();
+
+        let other = signed_up(&state, "stranger@example.com");
+        let mut foreign = with_auth(&state, &other, "PUT", &format!("/api/spots/{spot_id}"));
+        foreign.set_test_body(br#"{"title":"Stolen"}"#.to_vec());
+        let denied = handle(&state, foreign);
+        assert_eq!(denied.status, 404);
+        assert_eq!(
+            json_body(&denied).get_str("error"),
+            Some("Spot not found or not owned by you")
+        );
+
+        let mut put = with_auth(&state, &signup, "PUT", &format!("/api/spots/{spot_id}"));
+        put.set_test_body(br#"{"title":"Renamed Driveway","isAvailable":false}"#.to_vec());
+        let updated = handle(&state, put);
+        assert_eq!(updated.status, 200, "{}", String::from_utf8_lossy(&updated.body));
+        let body = json_body(&updated);
+        assert_eq!(body.get_str("title"), Some("Renamed Driveway"));
+        assert_eq!(body.get("isAvailable").and_then(Json::as_bool), Some(false));
+        assert_eq!(body.get_str("streetAddress"), Some("100 Main St"));
+
+        let mut listed = with_auth(&state, &signup, "GET", "/api/spots");
+        listed.query = "available=0".to_string();
+        let all = handle(&state, listed);
+        let all_body = json_body(&all);
+        let names: Vec<&str> = all_body
+            .as_arr()
+            .unwrap()
+            .iter()
+            .filter_map(|spot| spot.get_str("title"))
+            .collect();
+        assert!(names.contains(&"Renamed Driveway"));
+
+        let open = handle(&state, with_auth(&state, &signup, "GET", "/api/spots"));
+        let open_body = json_body(&open);
+        let open_names: Vec<&str> = open_body
+            .as_arr()
+            .unwrap()
+            .iter()
+            .filter_map(|spot| spot.get_str("title"))
+            .collect();
+        assert!(!open_names.contains(&"Renamed Driveway"));
+
+        let mine = handle(&state, with_auth(&state, &signup, "GET", "/api/spots/mine"));
+        assert_eq!(json_body(&mine).as_arr().unwrap().len(), 1);
+        std::fs::remove_dir_all(&dir).ok();
+    }
+
+    #[test]
+    fn update_zipcode_error_stays_500_and_create_zipcode_is_400() {
+        let (state, dir) = test_state();
+        let signup = signed_up(&state, "zip@example.com");
+        let mut create = with_auth(&state, &signup, "POST", "/api/spots");
+        create.set_test_body(valid_spot_json().as_bytes().to_vec());
+        let created = handle(&state, create);
+        let spot_id = json_body(&created).get_str("_id").unwrap().to_string();
+
+        let mut bad_create = with_auth(&state, &signup, "POST", "/api/spots");
+        bad_create.set_test_body(
+            valid_spot_json().replace("94123", "nope").into_bytes(),
+        );
+        let created_bad = handle(&state, bad_create);
+        assert_eq!(created_bad.status, 400);
+        assert_eq!(
+            json_body(&created_bad).get_str("error"),
+            Some("Zipcode should be 12345 or 12345-1234")
+        );
+
+        let mut bad_put = with_auth(&state, &signup, "PUT", &format!("/api/spots/{spot_id}"));
+        bad_put.set_test_body(br#"{"zipcode":"nope"}"#.to_vec());
+        let updated = handle(&state, bad_put);
+        assert_eq!(updated.status, 500);
+        assert_eq!(
+            json_body(&updated).get_str("error"),
+            Some("Failed to update spot")
+        );
+        std::fs::remove_dir_all(&dir).ok();
+    }
+
+    #[test]
+    fn booking_rejects_bad_windows_and_hides_other_renters() {
+        let (state, dir) = test_state();
+        let signup = signed_up(&state, "renter@example.com");
+
+        let mut backwards = with_auth(&state, &signup, "POST", "/api/bookings");
+        backwards.set_test_body(br#"{"spotId":"seed-marina","timeIn":10,"timeOut":10}"#.to_vec());
+        let back = handle(&state, backwards);
+        assert_eq!(back.status, 400);
+        assert_eq!(
+            json_body(&back).get_str("error"),
+            Some("timeOut must be after timeIn")
+        );
+
+        let mut huge = with_auth(&state, &signup, "POST", "/api/bookings");
+        huge.set_test_body(
+            br#"{"spotId":"seed-marina","timeIn":0,"timeOut":604800001}"#.to_vec(),
+        );
+        let over = handle(&state, huge);
+        assert_eq!(over.status, 400);
+        assert_eq!(
+            json_body(&over).get_str("error"),
+            Some("Booking cannot exceed 7 days")
+        );
+
+        let mut missing = with_auth(&state, &signup, "POST", "/api/bookings");
+        missing.set_test_body(br#"{"spotId":"seed-marina"}"#.to_vec());
+        let required = handle(&state, missing);
+        assert_eq!(required.status, 400);
+        assert_eq!(
+            json_body(&required).get_str("error"),
+            Some("spotId, timeIn, and timeOut are required")
+        );
+
+        let mut week = with_auth(&state, &signup, "POST", "/api/bookings");
+        week.set_test_body(
+            br#"{"spotId":"seed-marina","timeIn":0,"timeOut":604800000}"#.to_vec(),
+        );
+        let booked = handle(&state, week);
+        assert_eq!(booked.status, 201, "{}", String::from_utf8_lossy(&booked.body));
+        assert_eq!(
+            json_body(&booked).get("spot").and_then(|s| s.get_str("title")),
+            Some("Marina Driveway")
+        );
+
+        let other = signed_up(&state, "nobody@example.com");
+        let hidden = handle(&state, with_auth(&state, &other, "GET", "/api/bookings"));
+        assert_eq!(hidden.status, 200);
+        assert_eq!(json_body(&hidden).as_arr().unwrap().len(), 0);
+
+        let mut off = with_auth(&state, &signup, "PUT", "/api/spots/seed-marina");
+        off.set_test_body(br#"{"isAvailable":false}"#.to_vec());
+        assert_eq!(handle(&state, off).status, 404);
+
+        let mut gone = with_auth(&state, &signup, "POST", "/api/bookings");
+        gone.set_test_body(br#"{"spotId":"missing-spot","timeIn":0,"timeOut":1000}"#.to_vec());
+        let missing_spot = handle(&state, gone);
+        assert_eq!(missing_spot.status, 400);
+        assert_eq!(json_body(&missing_spot).get_str("error"), Some("Spot not found"));
+        std::fs::remove_dir_all(&dir).ok();
+    }
+
+    #[test]
+    fn booking_rejects_an_unavailable_spot() {
+        let (state, dir) = test_state();
+        let signup = signed_up(&state, "off@example.com");
+        let mut create = with_auth(&state, &signup, "POST", "/api/spots");
+        let body = valid_spot_json().replacen('}', r#","isAvailable":false}"#, 1);
+        create.set_test_body(body.into_bytes());
+        let created = handle(&state, create);
+        assert_eq!(created.status, 201, "{}", String::from_utf8_lossy(&created.body));
+        let spot_id = json_body(&created).get_str("_id").unwrap().to_string();
+        assert_eq!(
+            json_body(&created).get("isAvailable").and_then(Json::as_bool),
+            Some(false)
+        );
+
+        let mut book = with_auth(&state, &signup, "POST", "/api/bookings");
+        book.set_test_body(
+            format!(r#"{{"spotId":"{spot_id}","timeIn":0,"timeOut":3600000}}"#).into_bytes(),
+        );
+        let res = handle(&state, book);
+        assert_eq!(res.status, 400);
+        assert_eq!(
+            json_body(&res).get_str("error"),
+            Some("Spot is not available")
         );
         std::fs::remove_dir_all(&dir).ok();
     }

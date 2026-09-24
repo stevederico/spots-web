@@ -2329,6 +2329,16 @@ mod tests {
         assert!(pool.get_spot("spot-1").unwrap().is_some());
         assert!(pool.delete_spot("spot-1", "owner", 13).unwrap());
         assert!(pool.get_spot("spot-1").unwrap().is_none());
+        let rows = pool
+            .with(|db| {
+                db.query(
+                    "SELECT deleted_at, is_available FROM Spots WHERE _id = ?",
+                    &[Value::Text("spot-1".into())],
+                )
+            })
+            .unwrap();
+        assert_eq!(rows[0].int("deleted_at"), Some(13));
+        assert_eq!(rows[0].int("is_available"), Some(0));
     }
 
     #[test]
