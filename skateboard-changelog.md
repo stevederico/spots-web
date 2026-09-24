@@ -15,6 +15,175 @@
     that's why this file keeps the `skateboard-` prefix (so scaffolds don't inherit it).
 -->
 
+5.6.0
+
+  Catch worker parser panics
+  Cap request wall clock
+  Bound Stripe job queue
+  Allowlist checkout lookup keys
+
+5.5.0
+
+  Fix chunked body overflow DoS
+  Fix X-Forwarded-For hop trust
+  TRUST_PROXY is a hop count
+
+5.4.0
+
+  Pin skateboard-ui 5.1
+  Lazy loadLegal split
+  Add legal.json
+  Ship small PWA icons
+  Add SECURITY.md
+  Add test:docs
+  Trim README architecture
+
+5.3.0
+
+  Stripe worker threads
+  Auth IP rate limit
+  TRUST_PROXY support
+  Drop script unsafe-inline
+  External theme-init.js
+
+5.2.0
+
+  Audit release
+  Prod requires JWT_SECRET
+  Health probes SQLite
+  Prune webhook events
+  Harden JWT exp parsing
+  PUT /api/me 400
+  Cache index.html prod
+  Trim vite config
+  Lazy CommandMenu, BlankView
+  Drop root opacity gate
+  Absolute og:image URLs
+  Remove dead CSS
+  BlankView CTA needs handler
+  Generate robots, sitemap, manifest
+  CI Node 24
+  Docs match backend
+
+5.1.0
+
+  Bump vite for CVEs
+  Bump react 19.2.8
+  Bump Tailwind 4.3.3
+  Bump @types patches
+
+5.0.0
+
+  Major: skateboard-ui 5.0.0
+  Drop vite force reload
+  Drop SWC react plugin
+  Add lucide-react dependency
+  Drop coverage scripts
+  Add mocked Stripe route tests
+  Add stripe-cli replay script
+  Document 4.x to 5.0 migration
+
+4.26.0
+
+  Drop vite force reload
+  Drop SWC react plugin
+  Add lucide-react dependency
+  Drop coverage scripts
+  Document lucide icon imports
+
+4.25.0
+
+  Note skateboard-ui 4.16.0 cuts
+  Soften component count copy
+
+4.24.0
+
+  Drop app react-router
+  Pin skateboard-ui 4.15.0
+
+4.23.0
+
+  Drop demo ChatView
+  Drop CalendarTestView
+  Drop frontend vitest
+
+4.22.0
+
+  Pin react-router 7.15.0
+
+4.21.0
+
+  Route via skateboard-ui
+
+4.20.1
+
+  Lockout keyed per IP
+  Decay failed attempts
+  Bound lockout map
+  Validate redirect origin
+  Bound connection queue
+  Expose peer IP
+  Reject multi-statement SQL
+  Check sqlite threadsafe
+  Redact webhook emails
+
+4.20.0
+
+  Drop stale base-ui README line
+
+4.19.0
+
+  Drop vitest coverage package
+
+4.18.1
+
+  Fix libcurl setopt ABI
+  Enforce TLS verification
+  Fix billing portal IDOR
+  CSRF on usage/signout
+  Refuse CSRF store miss
+  Version scrypt hash format
+  Add Pool::transaction
+  Atomic signup writes
+  Atomic usage limit
+  Record webhook after applying
+
+4.18.0
+
+  Update README for Rust
+
+4.17.0
+
+  Replace Hono with Rust
+  Drop Node backend workspace
+  Drop npm cargo wrapper
+
+4.16.0
+
+  Roll back webhook record on failure
+  Add deleteWebhookEvent adapter method
+
+4.15.0
+
+  Env load no clobber
+  Fix webhook test 503
+
+4.14.0
+
+  Drop testing-library deps
+  Local src/test/dom helpers
+  Fix vitest coverage globs
+
+4.13.0
+
+  Refresh agent skill
+  Upgrade recipe plus skeletons
+
+4.12.0
+
+  Refuse .env symlinks
+  Docker env find-guard
+
 4.11.1
 
   Exclude local DB uploads from docker

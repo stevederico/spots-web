@@ -20,9 +20,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@stevederico/skateboard-ui/shadcn/ui/dialog';
-import DynamicIcon from '@stevederico/skateboard-ui/DynamicIcon';
+import { Plus, Trash2 } from 'lucide-react';
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
-import { apiRequest } from '@stevederico/skateboard-ui/Utilities';
+import { apiRequest, getCSRFToken } from '@stevederico/skateboard-ui/Utilities';
 import type { Spot, SpotInput, SpotStyle } from '../types/spots';
 
 const STYLES: SpotStyle[] = ['Street', 'Driveway', 'Garage'];
@@ -80,8 +80,10 @@ export default function MySpotsView() {
     setSaving(true);
     setFormError(null);
     try {
+      const csrfToken = getCSRFToken();
       await apiRequest<Spot>('/spots', {
         method: 'POST',
+        headers: csrfToken ? { 'X-CSRF-Token': csrfToken } : {},
         body: JSON.stringify(form),
       });
       setOpen(false);
@@ -101,7 +103,11 @@ export default function MySpotsView() {
    */
   async function handleDelete(id: string) {
     try {
-      await apiRequest(`/spots/${id}`, { method: 'DELETE' });
+      const csrfToken = getCSRFToken();
+      await apiRequest(`/spots/${id}`, {
+        method: 'DELETE',
+        headers: csrfToken ? { 'X-CSRF-Token': csrfToken } : {},
+      });
       await load();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to delete');
@@ -114,7 +120,7 @@ export default function MySpotsView() {
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button size="default">
-              <DynamicIcon name="plus" size={16} className="mr-1" />
+              <Plus size={16} aria-hidden="true" className="mr-1" />
               List a Spot
             </Button>
           </DialogTrigger>
@@ -274,7 +280,7 @@ export default function MySpotsView() {
                 onClick={() => handleDelete(spot._id)}
                 aria-label={`Remove ${spot.title}`}
               >
-                <DynamicIcon name="trash-2" size={16} />
+                <Trash2 size={16} aria-hidden="true" />
               </Button>
             </li>
           ))}

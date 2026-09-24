@@ -40,10 +40,8 @@ deno.lock
 *.db
 *.db-shm
 *.db-wal
+
+# Build & tooling artifacts
+coverage
 bun.lock
-
-# Railway local config (serverless flags; never commit)
-
-MIGRATION_GUIDE-0.9.8.md
-SKATEBOARD_UI_EXTENSIONS_PROPOSAL.md
-backend/databases/
+backend/target

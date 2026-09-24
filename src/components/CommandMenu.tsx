@@ -11,13 +11,32 @@ import {
   CommandItem,
   CommandShortcut,
 } from '@stevederico/skateboard-ui/shadcn/ui/command';
-import DynamicIcon from '@stevederico/skateboard-ui/DynamicIcon';
+import { History, Map, ParkingMeter, type LucideIcon } from 'lucide-react';
 
 /** Page entry from constants.json's pages array. */
 interface PageEntry {
   title: string;
   url: string;
   icon: string;
+}
+
+/** Named Lucide icons used by this app's page list. */
+const PAGE_ICONS: Record<string, LucideIcon> = {
+  map: Map,
+  'parking-meter': ParkingMeter,
+  history: History,
+};
+
+/**
+ * Render a page icon from the known Lucide set.
+ *
+ * @param props - Icon name from constants.json
+ * @returns The matching icon, or nothing when the name is unknown
+ */
+function PageIcon({ name }: { name: string }) {
+  const Icon = PAGE_ICONS[name];
+  if (!Icon) return null;
+  return <Icon size={16} aria-hidden="true" className="shrink-0 text-muted-foreground" />;
 }
 
 /**
@@ -90,7 +109,7 @@ export default function CommandMenu() {
                 onSelect={() => handleSelect(page.url)}
                 className="gap-3 px-3 py-2.5"
               >
-                <DynamicIcon name={page.icon} size={16} className="shrink-0 text-muted-foreground" />
+                <PageIcon name={page.icon} />
                 <span>{page.title}</span>
               </CommandItem>
             ))}

@@ -6,15 +6,16 @@ Airbnb-style parking marketplace — remake of ParkPro on the latest Skateboard 
 
 ## Stack
 
-- React 19 + Vite + react-router v7 + skateboard-ui `4.14.0`
-- Hono + SQLite + JWT auth (node:crypto)
-- Skateboard `4.11.1`
+- React 19 + Vite + react-router v7 + skateboard-ui `5.1.0`
+- Zero-crate Rust + SQLite + JWT auth
+- Skateboard `5.6.0`
 
 ## Quick start
 
 ```bash
-bun install
-bun run start
+npm install
+npm run start
+cd backend && cargo run
 ```
 
 - Frontend: http://localhost:5173  
