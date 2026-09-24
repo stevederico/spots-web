@@ -10,10 +10,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@stevederico/skateboard-ui/shadcn/ui/card';
-import DynamicIcon from '@stevederico/skateboard-ui/DynamicIcon';
+import { Car } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { apiRequest } from '@stevederico/skateboard-ui/Utilities';
+import { apiRequest, getCSRFToken } from '@stevederico/skateboard-ui/Utilities';
 import type { Booking, Spot } from '../types/spots';
 import { SpotOsmEmbed } from './SpotMap';
 
@@ -75,8 +75,10 @@ export default function SpotDetailView() {
     setBooking(true);
     setBookError(null);
     try {
+      const csrfToken = getCSRFToken();
       await apiRequest<Booking>('/bookings', {
         method: 'POST',
+        headers: csrfToken ? { 'X-CSRF-Token': csrfToken } : {},
         body: JSON.stringify({ spotId: spot._id, timeIn: start, timeOut: end }),
       });
       navigate('/app/history');
@@ -171,7 +173,7 @@ export default function SpotDetailView() {
                     disabled={booking || !spot.isAvailable}
                     className="w-full"
                   >
-                    <DynamicIcon name="car" size={16} className="mr-2" />
+                    <Car size={16} aria-hidden="true" className="mr-2" />
                     {booking ? 'Booking…' : spot.isAvailable ? 'Buy' : 'Unavailable'}
                   </Button>
                 </CardContent>

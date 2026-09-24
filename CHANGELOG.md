@@ -1,3 +1,13 @@
+0.3.1
+
+  Match update statuses
+
+0.3.0
+
+  Migrate skateboard 5.6
+  Port spots routes
+  Replace icon imports
+
 0.2.3
 
   Scrub personal env names

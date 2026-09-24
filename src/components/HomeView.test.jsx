@@ -12,8 +12,10 @@ vi.mock('@stevederico/skateboard-ui/Header', () => ({
   ),
 }));
 
-vi.mock('@stevederico/skateboard-ui/DynamicIcon', () => ({
-  default: ({ name }) => <span data-testid={`icon-${name}`} />,
+vi.mock('lucide-react', () => ({
+  Map: () => <span data-testid="icon-map" />,
+  List: () => <span data-testid="icon-list" />,
+  Search: () => <span data-testid="icon-search" />,
 }));
 
 vi.mock('@stevederico/skateboard-ui/Utilities', () => ({
