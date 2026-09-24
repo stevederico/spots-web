@@ -2,7 +2,7 @@ import Header from '@stevederico/skateboard-ui/Header';
 import { Button } from '@stevederico/skateboard-ui/shadcn/ui/button';
 import { Input } from '@stevederico/skateboard-ui/shadcn/ui/input';
 import { Skeleton } from '@stevederico/skateboard-ui/shadcn/ui/skeleton';
-import DynamicIcon from '@stevederico/skateboard-ui/DynamicIcon';
+import { List, Map as MapIcon, Search } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { apiRequest } from '@stevederico/skateboard-ui/Utilities';
@@ -73,7 +73,7 @@ export default function HomeView() {
             onClick={() => setView('map')}
             aria-pressed={view === 'map'}
           >
-            <DynamicIcon name="map" size={16} className="mr-1" />
+            <MapIcon size={16} aria-hidden="true" className="mr-1" />
             Map
           </Button>
           <Button
@@ -82,7 +82,7 @@ export default function HomeView() {
             onClick={() => setView('list')}
             aria-pressed={view === 'list'}
           >
-            <DynamicIcon name="list" size={16} className="mr-1" />
+            <List size={16} aria-hidden="true" className="mr-1" />
             List
           </Button>
         </div>
@@ -90,9 +90,9 @@ export default function HomeView() {
 
       <div className="flex flex-1 flex-col gap-4 p-4 md:p-6">
         <div className="relative max-w-md">
-          <DynamicIcon
-            name="search"
+          <Search
             size={16}
+            aria-hidden="true"
             className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-muted-foreground"
           />
           <Input
