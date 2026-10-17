@@ -1,3 +1,7 @@
+0.5.0
+
+  Add todo list
+
 0.4.0
 
   Drop CalendarTestView
