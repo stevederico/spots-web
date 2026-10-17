@@ -1,3 +1,7 @@
+0.4.0
+
+  Drop CalendarTestView
+
 0.3.1
 
   Match update statuses
