@@ -1,3 +1,7 @@
+0.6.0
+
+  Ship plan list
+
 0.5.0
 
   Add todo list
