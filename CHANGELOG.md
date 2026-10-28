@@ -1,3 +1,8 @@
+0.7.0
+
+  Honor LIBSQL_URL
+  Retry libSQL startup
+
 0.6.0
 
   Ship plan list
