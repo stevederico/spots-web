@@ -1,3 +1,7 @@
+0.7.3
+
+  Bump debian runtime base to bookworm-20261104-slim (apt 2.6.2)
+
 0.7.2
 
   Pin base images by digest
