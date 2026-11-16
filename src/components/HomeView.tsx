@@ -1,10 +1,10 @@
 import Header from '@stevederico/skateboard-ui/Header';
-import { Button } from '@stevederico/skateboard-ui/shadcn/ui/button';
-import { Input } from '@stevederico/skateboard-ui/shadcn/ui/input';
-import { Skeleton } from '@stevederico/skateboard-ui/shadcn/ui/skeleton';
-import { List, Map as MapIcon, Search } from 'lucide-react';
+import { Button } from '@stevederico/skateboard-ui/ui/button';
+import { Input } from '@stevederico/skateboard-ui/ui/input';
+import { Skeleton } from '@stevederico/skateboard-ui/ui/skeleton';
+import { List, Map as MapIcon, Search } from '@stevederico/skateboard-ui/icons';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router';
+import { Link } from '@stevederico/skateboard-ui/router';
 import { apiRequest } from '@stevederico/skateboard-ui/Utilities';
 import type { Spot } from '../types/spots';
 import SpotMap from './SpotMap';

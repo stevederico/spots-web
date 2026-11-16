@@ -1,18 +1,18 @@
 import Header from '@stevederico/skateboard-ui/Header';
-import { Button } from '@stevederico/skateboard-ui/shadcn/ui/button';
-import { Input } from '@stevederico/skateboard-ui/shadcn/ui/input';
-import { Label } from '@stevederico/skateboard-ui/shadcn/ui/label';
-import { Skeleton } from '@stevederico/skateboard-ui/shadcn/ui/skeleton';
+import { Button } from '@stevederico/skateboard-ui/ui/button';
+import { Input } from '@stevederico/skateboard-ui/ui/input';
+import { Label } from '@stevederico/skateboard-ui/ui/label';
+import { Skeleton } from '@stevederico/skateboard-ui/ui/skeleton';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@stevederico/skateboard-ui/shadcn/ui/card';
-import { Car } from 'lucide-react';
+} from '@stevederico/skateboard-ui/ui/card';
+import { Car } from '@stevederico/skateboard-ui/icons';
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams } from '@stevederico/skateboard-ui/router';
 import { apiRequest, getCSRFToken } from '@stevederico/skateboard-ui/Utilities';
 import type { Booking, Spot } from '../types/spots';
 import { SpotOsmEmbed } from './SpotMap';

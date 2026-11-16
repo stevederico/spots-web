@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import { MemoryRouter } from 'react-router';
+import { MemoryRouter } from '@stevederico/skateboard-ui/router';
 import HomeView from './HomeView';
 
 vi.mock('@stevederico/skateboard-ui/Header', () => ({
@@ -12,7 +12,7 @@ vi.mock('@stevederico/skateboard-ui/Header', () => ({
   ),
 }));
 
-vi.mock('lucide-react', () => ({
+vi.mock('@stevederico/skateboard-ui/icons', () => ({
   Map: () => <span data-testid="icon-map" />,
   List: () => <span data-testid="icon-list" />,
   Search: () => <span data-testid="icon-search" />,
@@ -22,15 +22,15 @@ vi.mock('@stevederico/skateboard-ui/Utilities', () => ({
   apiRequest: vi.fn(),
 }));
 
-vi.mock('@stevederico/skateboard-ui/shadcn/ui/button', () => ({
+vi.mock('@stevederico/skateboard-ui/ui/button', () => ({
   Button: ({ children, ...props }) => <button type="button" {...props}>{children}</button>,
 }));
 
-vi.mock('@stevederico/skateboard-ui/shadcn/ui/input', () => ({
+vi.mock('@stevederico/skateboard-ui/ui/input', () => ({
   Input: (props) => <input {...props} />,
 }));
 
-vi.mock('@stevederico/skateboard-ui/shadcn/ui/skeleton', () => ({
+vi.mock('@stevederico/skateboard-ui/ui/skeleton', () => ({
   Skeleton: (props) => <div data-testid="skeleton" {...props} />,
 }));
 

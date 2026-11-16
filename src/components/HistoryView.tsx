@@ -1,7 +1,7 @@
 import Header from '@stevederico/skateboard-ui/Header';
-import { Skeleton } from '@stevederico/skateboard-ui/shadcn/ui/skeleton';
+import { Skeleton } from '@stevederico/skateboard-ui/ui/skeleton';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router';
+import { Link } from '@stevederico/skateboard-ui/router';
 import { apiRequest } from '@stevederico/skateboard-ui/Utilities';
 import type { Booking } from '../types/spots';
 

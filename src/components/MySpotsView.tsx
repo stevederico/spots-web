@@ -1,16 +1,16 @@
 import Header from '@stevederico/skateboard-ui/Header';
-import { Button } from '@stevederico/skateboard-ui/shadcn/ui/button';
-import { Input } from '@stevederico/skateboard-ui/shadcn/ui/input';
-import { Label } from '@stevederico/skateboard-ui/shadcn/ui/label';
-import { Textarea } from '@stevederico/skateboard-ui/shadcn/ui/textarea';
-import { Skeleton } from '@stevederico/skateboard-ui/shadcn/ui/skeleton';
+import { Button } from '@stevederico/skateboard-ui/ui/button';
+import { Input } from '@stevederico/skateboard-ui/ui/input';
+import { Label } from '@stevederico/skateboard-ui/ui/label';
+import { Textarea } from '@stevederico/skateboard-ui/ui/textarea';
+import { Skeleton } from '@stevederico/skateboard-ui/ui/skeleton';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@stevederico/skateboard-ui/shadcn/ui/select';
+} from '@stevederico/skateboard-ui/ui/select';
 import {
   Dialog,
   DialogContent,
@@ -19,8 +19,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@stevederico/skateboard-ui/shadcn/ui/dialog';
-import { Plus, Trash2 } from 'lucide-react';
+} from '@stevederico/skateboard-ui/ui/dialog';
+import { Plus, Trash2 } from '@stevederico/skateboard-ui/icons';
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
 import { apiRequest, getCSRFToken } from '@stevederico/skateboard-ui/Utilities';
 import type { Spot, SpotInput, SpotStyle } from '../types/spots';
